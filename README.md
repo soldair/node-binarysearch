@@ -1,3 +1,6 @@
+
+[![Build Status](https://secure.travis-ci.org/soldair/node-binarysearch.png)](http://travis-ci.org/soldair/node-binarysearch)
+
 node-binarysearch
 =================
 
