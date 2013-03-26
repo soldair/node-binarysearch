@@ -19,6 +19,8 @@ module.exports.last = function(arr,search,comparitor) {
 }
 
 module.exports.closest = function(arr,search,opts,comparitor) {
+  if(arr.length === 1) return arr[0];
+
   if(typeof opts === 'function') {
     opts = {};
     comparitor = opts;

@@ -12,3 +12,9 @@ test("can get closest end",function(t){
   t.equals(key,2,key+' should have got 2 as key because it is the last closest to 3');
   t.end();
 });
+
+test("can get closest with one item",function(t){
+  var key = bs.closest([1],3,{end:true});
+  t.equals(key,0,key+' should have got 0 as key because there is only 1');
+  t.end();
+});
