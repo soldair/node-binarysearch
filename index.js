@@ -31,9 +31,10 @@ module.exports.closest = function(arr,search,opts,comparitor) {
 
 module.exports.range = function(arr,from,to,comparitor) {
   if(!comparitor) comparitor = module.exports._defaultComparitor();
-  from = bsclosest(arr, from,comparitor,false,true);
-  to = bsclosest(arr, to,comparitor,true,true);
-  return arr.slice(from,to);
+  var fromi = bsclosest(arr, from,comparitor,false,true);
+  var toi = bsclosest(arr, to,comparitor,true,true);
+
+  return arr.slice(fromi,arr[toi]>to?toi:toi+1);
 }
 
 module.exports.indexObject = function(o,extractor) {
@@ -95,9 +96,12 @@ function bsclosest(arr, search, comparitor, invert, closest) {
   var mids = {};
   var min = 0,max = arr.length-1,middle,cmp;
   var sanity = arr.length;
+
   while (min < max) {
     middle = midCareful(min, max,mids); 
     cmp = comparitor(arr[middle],search);
+
+    console.log(min,max,middle,cmp)
 
     if(invert){
       if (cmp === 1){
@@ -113,9 +117,10 @@ function bsclosest(arr, search, comparitor, invert, closest) {
       }
     }
     sanity--;
-    if(!sanity) break;;
+    if(!sanity) break;
   }
  
+  
   if (max == min && arr[min] == search) {
     return min;
   } else {
