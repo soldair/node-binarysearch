@@ -101,8 +101,6 @@ function bsclosest(arr, search, comparitor, invert, closest) {
     middle = midCareful(min, max,mids); 
     cmp = comparitor(arr[middle],search);
 
-    console.log(min,max,middle,cmp)
-
     if(invert){
       if (cmp === 1){
         max = middle - 1;
