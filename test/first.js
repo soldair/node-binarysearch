@@ -1,7 +1,6 @@
 var test = require('tap').test;
 var bs = require('../index.js');
 
-
 test("can get first",function(t){
   var key = bs.first([1,2,3,3,3,4],3)
   t.equals(key,2,' should have got 2 as key because it is index of the first 3');

@@ -38,22 +38,28 @@ bs([5,6,7,8,9],9,function(value,find){
 find first key that matches
 
 ```js
-bs.first([1,2,3,3,3,4],3) === 2
+bs.first([0,1,2,3,3,3,4],3) === 2
 
 ```
 
 find last key that matches
 
 ```js
-bs.last([1,2,3,3,3,4],3) === 4
+bs.last([,1,2,3,3,3,4],3) === 4
  
 ```
 
 find closest key to search value
+  - if the value is in the array it returns the first index with that value in the array
+  - if the value is not the index in the array of the closest item that sorts immediately before this item will be returned.
+    - +1 is the index where you should set this item into the array if you want to add it.
+    - if index 0 is the closest match -i will be returmed.
 
 ```js
 
 bs.closest([1,2,4,5,6],3) === 1
+bs.closest([1,2,4,5,6],0) === -1
+bs.closest([1,2,4,5,6],200) === 6
 
 ```
 

@@ -19,24 +19,45 @@ module.exports.last = function(arr,search,comparitor) {
 }
 
 module.exports.closest = function(arr,search,opts,comparitor) {
-  if(arr.length === 1) return 0;
 
   if(typeof opts === 'function') {
-    opts = {};
     comparitor = opts;
+    opts = {};
   }
+
+
   opts = opts||{};
   if(!comparitor) comparitor = module.exports._defaultComparitor();
   
-  return bsclosest(arr, search,comparitor,opts.end,opts.exists?false:true);
+  var closest = bsclosest(arr, search, comparitor, opts.end, opts.exists?false:true);
+
+  if(closest > arr.length-1) closest = arr.length-1;
+  else if(closest < 0) closest = 0;
+
+  return closest;
 }
 
 module.exports.range = function(arr,from,to,comparitor) {
   if(!comparitor) comparitor = module.exports._defaultComparitor();
-  var fromi = bsclosest(arr, from,comparitor,false,true);
-  var toi = bsclosest(arr, to,comparitor,true,true);
 
-  return arr.slice(fromi,arr[toi]>to?toi:toi+1);
+  var fromi = module.exports.closest(arr,from,comparitor);
+
+  var toi = module.exports.closest(arr,to,{end:true},comparitor);
+
+
+  // this is a hack. 
+  // i should be able to fix the algorithm and generate a correct range.
+  
+  var range = arr.slice(fromi,toi+1);
+  while(range.length){
+    if(comparitor(range[0],from) > -1) break;
+    range.shift();
+  }
+  while(range.length){
+    if(comparitor(range[range.length-1],to) < 1) break;
+    range.pop();
+  }
+  return range;
 }
 
 module.exports.indexObject = function(o,extractor) {
@@ -100,6 +121,7 @@ function bsclosest(arr, search, comparitor, invert, closest) {
   var sanity = arr.length;
 
   while (min < max) {
+    
     middle = midCareful(min, max,mids); 
     cmp = comparitor(arr[middle],search);
 
@@ -117,14 +139,16 @@ function bsclosest(arr, search, comparitor, invert, closest) {
       }
     }
     sanity--;
-    if(!sanity) break;
+    if(!sanity) {
+      break;
+    }
   }
  
   
   if (max == min && arr[min] == search) {
     return min;
   } else {
-    return closest?invert?min+1:min-1:-1;
+    return closest?(invert?min+1:min-1):-1;
   }
 }
 
