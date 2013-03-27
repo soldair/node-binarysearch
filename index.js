@@ -37,6 +37,8 @@ module.exports.closest = function(arr,search,opts,comparitor) {
   return closest;
 }
 
+// this is inconsistent because it gives values.
+// i should breaking change this soon.
 module.exports.range = function(arr,from,to,comparitor) {
   if(!comparitor) comparitor = module.exports._defaultComparitor();
 

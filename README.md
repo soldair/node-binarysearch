@@ -58,33 +58,42 @@ find closest key to where or key of searched value in the array
 ```js
 
 bs.closest([1,2,4,5,6],3) === 1
-bs.closest([1,2,4,5,6],0) === -1
+bs.closest([1,2,4,5,6],0) === 0
 bs.closest([1,2,4,5,6],200) === 6
+
+// non unique matching/matching at end of series
+bs.closest([1,2,4,5,5,5,6],5) === 3
+bs.closest([1,2,4,5,5,5,6],5,{end:true}) === 5
 
 ```
 
-query for range (inclusive)
+query for range (inclusive). returns sliced values.
 
 ```js
 bs.range([1,2,3,3,3,4,4,6],3,5) === [3,3,3,4,4]
 
 ```
 
-search with object index
+create an object index
 
 ```js
 
 var index = bs.indexObject({a:2,b:1});
 // [{k:'b',v:1},{k:a,v:2}];
 
+```
+
+search an object index
+
+```js
 var obj = {a:{id:22,name:'bob'},b:{id:11,name:'joe'}};
+// [{k:'b',v:11},{k:'a',v:22}];
+
 index = bs.indexObject(obj,function(o1,o2){
   if(o1.id > o2.id) return 1
   else if(o1.id < o2.id) return -1;
   return 0; 
 });
-// [{k:'b',v:11},{k:a,v:22}];
-
 
 obj[bs(index,'bob').k] === {id:22,name:'bob'};
 
