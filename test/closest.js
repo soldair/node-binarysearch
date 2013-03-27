@@ -9,13 +9,19 @@ test("can get closest",function(t){
 
 test("can get closest with one item more",function(t){
   var key = bs.closest([3],1);
-  t.equals(key,0,key+' should have got -1 as key because there is only 1 and it is higher');
+  t.equals(key,0,key+' should have got 0 as key even though there is only 1 and it is higher');
   t.end();
 });
 
 test("can get closest with one item less",function(t){
   var key = bs.closest([1],4);
   t.equals(key,0,key+' should have got 0 as key because there is only 1 and its less');
+  t.end();
+});
+
+test("gets lowest number closest",function(t){
+  var key = bs.closest([2,3,4,100],99);
+  t.equals(key,2,key+' should have got key 2 because that is the last number before a number greater');
   t.end();
 });
 
@@ -38,3 +44,10 @@ test("can get closest end at end",function(t){
   t.equals(key,1,key+' should have got key 1 because that is the last 2 and im going from end');
   t.end();
 });
+
+test("gets highest number closest with end",function(t){
+  var key = bs.closest([2,3,4,100,100],99,{end:true});
+  t.equals(key,3,key+' should have got key 3 because that is the closest number greater than the search');
+  t.end();
+});
+

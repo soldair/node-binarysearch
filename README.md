@@ -49,11 +49,11 @@ bs.last([,1,2,3,3,3,4],3) === 4
  
 ```
 
-find closest key to search value
-  - if the value is in the array it returns the first index with that value in the array
-  - if the value is not the index in the array of the closest item that sorts immediately before this item will be returned.
-    - +1 is the index where you should set this item into the array if you want to add it.
-    - if index 0 is the closest match -i will be returmed.
+find closest key to where or key of searched value in the array
+  - if the key is in the array the key will point to
+    - the first key that has that value by default
+    - the last key that has that value if {end:true} option is specified
+  - only returns -1 if array is empty 
 
 ```js
 
