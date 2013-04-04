@@ -25,15 +25,44 @@ module.exports.closest = function(arr,search,opts,comparitor) {
     opts = {};
   }
 
-
   opts = opts||{};
   if(!comparitor) comparitor = module.exports._defaultComparitor();
   
   var closest = bsclosest(arr, search, comparitor, opts.end, opts.exists?false:true);
 
+
   if(closest > arr.length-1) closest = arr.length-1;
   else if(closest < 0) closest = 0;
 
+  return closest;
+}
+
+// inserts element into the correct sorted spot into the array
+module.exports.insert = function(arr,v,comparitor){ 
+
+  if(!comparitor) comparitor = module.exports._defaultComparitor();
+  if(!arr.length) {
+    arr[0] = v;
+    return 0;
+  }
+
+  var closest = module.exports.closest(arr,v,comparitor);
+
+  var cmp = comparitor(arr[closest],v);
+  if(cmp  === -1) {//less
+    arr.splice(++closest,0,v);
+  } else if(cmp === 1){ 
+    arr.splice(closest,0,v);
+  } else {
+    // im equal. this value should be appended to the list of existing same sorted values.
+    while(comparitor(arr[closest],v) === 0){
+      if(closest >= arr.length-1) break;
+      closest++;
+    }
+
+    arr.splice(closest,0,v);
+
+  }
   return closest;
 }
 
@@ -46,7 +75,6 @@ module.exports.range = function(arr,from,to,comparitor) {
 
   var toi = module.exports.closest(arr,to,{end:true},comparitor);
 
-
   // this is a hack. 
   // i should be able to fix the algorithm and generate a correct range.
   
@@ -55,11 +83,13 @@ module.exports.range = function(arr,from,to,comparitor) {
     if(comparitor(range[0],from) > -1) break;
     range.shift();
   }
+
   while(range.length){
     if(comparitor(range[range.length-1],to) < 1) break;
     range.pop();
   }
   return range;
+
 }
 
 module.exports.indexObject = function(o,extractor) {
@@ -77,16 +107,18 @@ module.exports.indexObject = function(o,extractor) {
 }
 
 module.exports._defaultComparitor = function() {
-  var indexMode;
+  var indexMode,indexModeSearch;
   return function(v,search){
     // support the object format of generated indexes
     if(indexMode === undefined){
       if(typeof v === 'object' && v.hasOwnProperty('v')) indexMode = true;
       indexMode = false;
+      if(typeof search === 'object' && search.hasOwnProperty('v')) indexModeSearch = true
     }
 
     if(indexMode) v = v.v;
-    
+    if(indexModeSearch) search = search.v;
+
     if(v > search) return 1;
     else if(v < search) return -1;
     return 0;
@@ -147,10 +179,17 @@ function bsclosest(arr, search, comparitor, invert, closest) {
   }
  
   
-  if (max == min && arr[min] == search) {
+  if (max == min && comparitor(arr[min],search) === 0) {
     return min;
   } else {
-    return closest?(invert?min+1:min-1):-1;
+    if(closest) {
+      var match = comparitor(arr[min],search);
+      if(min == arr.length-1 && match === -1) return min;
+      if(min == 0 && match === 1) return 0;
+
+      return closest?(invert?min+1:min-1):-1;
+    } 
+    return -1;
   }
 }
 

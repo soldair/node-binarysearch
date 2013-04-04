@@ -25,6 +25,12 @@ test("gets lowest number closest",function(t){
   t.end();
 });
 
+test("can get closest at end",function(t){
+  var key = bs.closest([1,2,4,5,6],7);
+  t.equals(key,4,key+' should have got 4 as key because it is the last');
+  t.end();
+});
+
 // end sorted
 
 test("can get closest end",function(t){
@@ -35,7 +41,7 @@ test("can get closest end",function(t){
 
 test("can get closest end at end",function(t){
   var key = bs.closest([1,2,4,5,6],7,{end:true});
-  t.equals(key,4,key+' should have got 2 as key because it is the last closest to 3');
+  t.equals(key,4,key+' should have got 4 as key because it is the last');
   t.end();
 });
 

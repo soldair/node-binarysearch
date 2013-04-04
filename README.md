@@ -67,6 +67,19 @@ bs.closest([1,2,4,5,5,5,6],5,{end:true}) === 5
 
 ```
 
+insert a value into a sorted array.
+
+```js
+var arr = [1,3,4];
+bs.insert(arr,2) === 1
+// returns the key it inserted into 
+
+arr[1] === 2
+// true
+
+ 
+```
+
 query for range (inclusive). returns sliced values.
 
 ```js
