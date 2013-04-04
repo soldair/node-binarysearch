@@ -67,6 +67,13 @@ bs.closest([1,2,4,5,5,5,6],5,{end:true}) === 5
 
 ```
 
+query for range (inclusive). returns sliced values.
+
+```js
+bs.range([1,2,3,3,3,4,4,6],3,5) === [3,3,3,4,4]
+
+```
+
 insert a value into a sorted array.
 
 ```js
@@ -76,15 +83,20 @@ bs.insert(arr,2) === 1
 
 arr[1] === 2
 // true
-
  
 ```
-
-query for range (inclusive). returns sliced values.
+when you insert values and there are duplicates the default behavior is to insert the new value after the other same values.
+if you pass option.unique = true the key's value is replaced with the new value
 
 ```js
-bs.range([1,2,3,3,3,4,4,6],3,5) === [3,3,3,4,4]
+var arr = [1,2,3];
+bs.insert(arr,2)
+// arr is [1,2,2,3]
 
+var arr = [1,2,3];
+bs.insert(arr,2,{unique:true});
+// arr is [1,2,3]
+ 
 ```
 
 create an object index

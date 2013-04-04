@@ -38,30 +38,39 @@ module.exports.closest = function(arr,search,opts,comparitor) {
 }
 
 // inserts element into the correct sorted spot into the array
-module.exports.insert = function(arr,v,comparitor){ 
+module.exports.insert = function(arr,search,opts,comparitor){ 
 
+  if(typeof opts === 'function') {
+    comparitor = opts;
+    opts = {};
+  }
+
+  opts = opts||{};
   if(!comparitor) comparitor = module.exports._defaultComparitor();
   if(!arr.length) {
-    arr[0] = v;
+    arr[0] = search;
     return 0;
   }
 
-  var closest = module.exports.closest(arr,v,comparitor);
+  var closest = module.exports.closest(arr,search,comparitor);
 
-  var cmp = comparitor(arr[closest],v);
+  var cmp = comparitor(arr[closest],search);
   if(cmp  === -1) {//less
-    arr.splice(++closest,0,v);
+    arr.splice(++closest,0,search);
   } else if(cmp === 1){ 
-    arr.splice(closest,0,v);
+    arr.splice(closest,0,search);
   } else {
-    // im equal. this value should be appended to the list of existing same sorted values.
-    while(comparitor(arr[closest],v) === 0){
-      if(closest >= arr.length-1) break;
-      closest++;
+    if(opts.unique){
+      arr[closest] = search;
+    } else {
+      // im equal. this value should be appended to the list of existing same sorted values.
+      while(comparitor(arr[closest],search) === 0){
+        if(closest >= arr.length-1) break;
+        closest++;
+      }
+
+      arr.splice(closest,0,search);
     }
-
-    arr.splice(closest,0,v);
-
   }
   return closest;
 }
