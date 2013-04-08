@@ -67,10 +67,17 @@ bs.closest([1,2,4,5,5,5,6],5,{end:true}) === 5
 
 ```
 
-query for range (inclusive). returns sliced values.
+query for rangeValue (inclusive). returns sliced values.
 
 ```js
-bs.range([1,2,3,3,3,4,4,6],3,5) === [3,3,3,4,4]
+bs.rangeValue([1,2,3,3,3,4,4,6],3,5) === [3,3,3,4,4]
+
+```
+
+or simply access the array offsets directly as [start,end]
+
+```js
+bs.range([1,2,3,3,3,4,4,6],3,5) === [2,6]
 
 ```
 

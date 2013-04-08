@@ -30,7 +30,6 @@ module.exports.closest = function(arr,search,opts,comparitor) {
   
   var closest = bsclosest(arr, search, comparitor, opts.end, opts.exists?false:true);
 
-
   if(closest > arr.length-1) closest = arr.length-1;
   else if(closest < 0) closest = 0;
 
@@ -75,8 +74,7 @@ module.exports.insert = function(arr,search,opts,comparitor){
   return closest;
 }
 
-// this is inconsistent because it gives values.
-// i should breaking change this soon.
+// this method returns the start and end indicies of a range. [start,end]
 module.exports.range = function(arr,from,to,comparitor) {
   if(!comparitor) comparitor = module.exports._defaultComparitor();
 
@@ -86,21 +84,28 @@ module.exports.range = function(arr,from,to,comparitor) {
 
   // this is a hack. 
   // i should be able to fix the algorithm and generate a correct range.
-  
-  var range = arr.slice(fromi,toi+1);
-  while(range.length){
-    if(comparitor(range[0],from) > -1) break;
-    range.shift();
+
+  while(fromi <= toi){ 
+    if(comparitor(arr[fromi],from) > -1) break;
+
+    fromi++
   }
 
-  while(range.length){
-    if(comparitor(range[range.length-1],to) < 1) break;
-    range.pop();
+  while(toi >= fromi){ 
+    if(comparitor(arr[toi],to) < 1) break;
+    toi--;
   }
-  return range;
 
+  return [fromi,toi];
 }
 
+// this method returns the values of a range;
+module.exports.rangeValue = function(arr,from,to,comparitor){
+  var range = module.exports.range(arr,from,to,comparitor);
+  return arr.slice(range[0],range[1]+1);
+}
+
+//
 module.exports.indexObject = function(o,extractor) {
   var index = [];
   
