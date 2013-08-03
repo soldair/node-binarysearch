@@ -57,3 +57,9 @@ test("gets highest number closest with end",function(t){
   t.end();
 });
 
+test("closest returns -1 on empty array",function(t){
+  var key = bs.closest([],99);
+  t.equals(key,-1,key+' should be -1 because i have no data in the array to be close to');
+  t.end();
+});
+

@@ -1,7 +1,7 @@
 {
   "name": "binarysearch",
   "description": "pure js binary search for sorted javascript arrays||array like objects. returns any || last || first || closest matched key for value, or slice between 2 values where values need not exist.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "repository": {
     "url": "git://github.com/soldair/node-binarysearch.git"
   },

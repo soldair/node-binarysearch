@@ -25,6 +25,9 @@ module.exports.closest = function(arr,search,opts,comparitor) {
     opts = {};
   }
 
+  if(arr.length === 0) return -1;
+  if(arr.length === 1) return 0;
+
   opts = opts||{};
   if(!comparitor) comparitor = module.exports._defaultComparitor();
   
