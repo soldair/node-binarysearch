@@ -29,7 +29,7 @@ module.exports.closest = function(arr,search,opts,comparitor) {
   if(arr.length === 1) return 0;
 
   opts = opts||{};
-  if(!comparitor) comparitor = module.exports._defaultComparitor();
+  if(!comparitor) comparitor = this._defaultComparitor();
   
   var closest = bsclosest(arr, search, comparitor, opts.end, opts.exists?false:true);
 
@@ -123,6 +123,10 @@ module.exports.indexObject = function(o,extractor) {
   });
 }
 
+module.exports.cmp = function(v1,v2){
+  return (v1<v2?-1:v1>v2?1:0)
+}
+
 module.exports._defaultComparitor = function() {
   var indexMode,indexModeSearch;
   return function(v,search){
@@ -152,7 +156,7 @@ function bs(arr, search, comparitor) {
   while (max >= min) {
     middle = mid(min, max);
 
-    cmp = comparitor(arr[middle],search);
+    cmp = comparitor(arr[middle],search,middle);
 
     if (cmp === -1) {
       min = middle + 1;
@@ -167,47 +171,33 @@ function bs(arr, search, comparitor) {
 }
 
 function bsclosest(arr, search, comparitor, invert, closest) {
-  var mids = {};
-  var min = 0,max = arr.length-1,middle,cmp;
-  var sanity = arr.length;
+  var mids = {}
+  , min = 0,max = arr.length-1,middle,cmp
+  , sanity = arr.length;
 
   while (min < max) {
-    
     middle = midCareful(min, max,mids); 
-    cmp = comparitor(arr[middle],search);
-
+    cmp = comparitor(arr[middle],search,middle);
     if(invert){
-      if (cmp === 1){
-        max = middle - 1;
-      } else {
-        min = middle;
-      }       
+      if (cmp === 1)max = middle - 1;
+      else min = middle;   
     } else {
-      if (cmp === -1){
-        min = middle + 1;
-      } else {
-        max = middle;
-      }
+      if (cmp === -1)min = middle + 1;
+      else max = middle;
     }
-    sanity--;
-    if(!sanity) {
-      break;
-    }
+    if(!--sanity) break;
   }
- 
+   
+  if (max == min && comparitor(arr[min],search) === 0) return min;
   
-  if (max == min && comparitor(arr[min],search) === 0) {
-    return min;
-  } else {
-    if(closest) {
-      var match = comparitor(arr[min],search);
-      if(min == arr.length-1 && match === -1) return min;
-      if(min == 0 && match === 1) return 0;
+  if(closest) {
+    var match = comparitor(arr[min],search);
+    if(min == arr.length-1 && match === -1) return min;
+    if(min == 0 && match === 1) return 0;
 
-      return closest?(invert?min+1:min-1):-1;
-    } 
-    return -1;
-  }
+    return closest?(invert?min+1:min-1):-1;
+  } 
+  return -1; 
 }
 
 function mid(v1,v2){
