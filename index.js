@@ -131,7 +131,6 @@ module.exports._defaultComparitor = function() {
     // support the object format of generated indexes
     if(indexMode === undefined){
       if(typeof v === 'object' && v.hasOwnProperty('v')) indexMode = true;
-      indexMode = false;
       if(typeof search === 'object' && search.hasOwnProperty('v')) indexModeSearch = true
     }
 
