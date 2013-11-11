@@ -137,9 +137,7 @@ module.exports._defaultComparitor = function() {
     if(indexMode) v = v.v;
     if(indexModeSearch) search = search.v;
 
-    if(v > search) return 1;
-    else if(v < search) return -1;
-    return 0;
+    return v - search;
   };
 };
 
