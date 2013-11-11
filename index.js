@@ -57,9 +57,9 @@ module.exports.insert = function(arr,search,opts,comparitor){
   var closest = module.exports.closest(arr,search,comparitor);
 
   var cmp = comparitor(arr[closest],search);
-  if(cmp  === -1) {//less
+  if(cmp < 0) {//less
     arr.splice(++closest,0,search);
-  } else if(cmp === 1){ 
+  } else if(cmp > 0){ 
     arr.splice(closest,0,search);
   } else {
     if(opts.unique){
@@ -117,14 +117,12 @@ module.exports.indexObject = function(o,extractor) {
   });
 
   return index.sort(function(o1,o2){
-    if(o1.v>o2.v) return 1
-    else if(o1.v<o2,v) return -1
-    else return 0;
+    return o1.v - o2.v;
   });
 }
 
 module.exports.cmp = function(v1,v2){
-  return (v1<v2?-1:v1>v2?1:0)
+  return v1 - v2;
 }
 
 module.exports._defaultComparitor = function() {
@@ -133,16 +131,13 @@ module.exports._defaultComparitor = function() {
     // support the object format of generated indexes
     if(indexMode === undefined){
       if(typeof v === 'object' && v.hasOwnProperty('v')) indexMode = true;
-      indexMode = false;
       if(typeof search === 'object' && search.hasOwnProperty('v')) indexModeSearch = true
     }
 
     if(indexMode) v = v.v;
     if(indexModeSearch) search = search.v;
 
-    if(v > search) return 1;
-    else if(v < search) return -1;
-    return 0;
+    return v - search;
   };
 };
 
@@ -158,9 +153,9 @@ function bs(arr, search, comparitor) {
 
     cmp = comparitor(arr[middle],search,middle);
 
-    if (cmp === -1) {
+    if (cmp < 0) {
       min = middle + 1;
-    } else if (cmp === 1) {
+    } else if (cmp > 0) {
       max = middle - 1;
     } else {
       return middle;
@@ -179,10 +174,10 @@ function bsclosest(arr, search, comparitor, invert, closest) {
     middle = midCareful(min, max,mids); 
     cmp = comparitor(arr[middle],search,middle);
     if(invert){
-      if (cmp === 1)max = middle - 1;
+      if (cmp > 0)max = middle - 1;
       else min = middle;   
     } else {
-      if (cmp === -1)min = middle + 1;
+      if (cmp < 0)min = middle + 1;
       else max = middle;
     }
     if(!--sanity) break;

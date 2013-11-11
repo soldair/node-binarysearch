@@ -3,9 +3,7 @@ var bs = require('../index.js');
 
 test("can find index",function(t){
   var key = bs([1,2,3,4,5,6,7,8],6,function(v,find){
-     if(v > find) return 1;
-     else if(v < find) return -1;
-     else return 0 
+    return (v - find);
   });
 
   t.equals(key,5,'should have found key 5 for value 6');
