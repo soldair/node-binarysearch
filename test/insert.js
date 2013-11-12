@@ -39,4 +39,13 @@ test("inserts at end of same values",function(t){
   t.end();
 });
 
+test("can handle numbers with big gaps",function(t){
+  var arr = [ 1384217040821830, 1384217040822643, 1384217040825255 ];
+  var obj = 1384217040826148;
+
+  var key = bs.insert(arr,obj)
+  t.equals(arr[3],obj,' should have correct object at offset');
+  t.end();
+})
+
 

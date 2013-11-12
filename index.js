@@ -187,8 +187,8 @@ function bsclosest(arr, search, comparitor, invert, closest) {
   
   if(closest) {
     var match = comparitor(arr[min],search);
-    if(min == arr.length-1 && match === -1) return min;
-    if(min == 0 && match === 1) return 0;
+    if(min == arr.length-1 && match < 0) return min;
+    if(min == 0 && match > 0) return 0;
 
     return closest?(invert?min+1:min-1):-1;
   } 
