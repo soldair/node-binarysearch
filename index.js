@@ -127,6 +127,7 @@ module.exports.cmp = function(v1,v2){
 
 module.exports._defaultComparitor = function() {
   var indexMode,indexModeSearch;
+  var stringMode;
   return function(v,search){
     // support the object format of generated indexes
     if(indexMode === undefined){
@@ -137,7 +138,16 @@ module.exports._defaultComparitor = function() {
     if(indexMode) v = v.v;
     if(indexModeSearch) search = search.v;
 
-    return v - search;
+    if(stringMode === undefined){
+      stringMode = false
+      if(typeof search === 'string' || typeof v === "string"){
+        stringMode = true
+      }
+    }
+
+    if(stringMode) v = v+''
+
+    return v > search ? 1 : v < search ? -1 : 0
   };
 };
 
