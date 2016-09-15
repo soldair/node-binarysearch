@@ -110,12 +110,12 @@ insert with user defined comparator function
 
 ```js
 var arr = [5,6,7,8,9];
-bs.insert(arr,10,function(value,find){
-  if(value > find) return 1;
-  else if(value < find) return -1;
+bs.insert(arr,10,function(value,add){
+  if(value > add) return 1;
+  else if(value < add) return -1;
   return 0;
 });
-// arr is [5,6,7,8,9, 10]
+// arr is [5,6,7,8,9,10]
 
 ```
 
