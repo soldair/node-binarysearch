@@ -23,7 +23,7 @@ bs([1],5) === -1
 
 ```
 
-search with user defined comparitor function
+search with user defined comparator function
 
 ```js
 bs([5,6,7,8,9],9,function(value,find){
@@ -46,14 +46,14 @@ find last key that matches
 
 ```js
 bs.last([,1,2,3,3,3,4],3) === 4
- 
+
 ```
 
 find closest key to where or key of searched value in the array
   - if the key is in the array the key will point to
     - the first key that has that value by default
     - the last key that has that value if {end:true} option is specified
-  - only returns -1 if array is empty 
+  - only returns -1 if array is empty
 
 ```js
 
@@ -86,11 +86,11 @@ insert a value into a sorted array.
 ```js
 var arr = [1,3,4];
 bs.insert(arr,2) === 1
-// returns the key it inserted into 
+// returns the key it inserted into
 
 arr[1] === 2
 // true
- 
+
 ```
 when you insert values and there are duplicates the default behavior is to insert the new value after the other same values.
 if you pass option.unique = true the key's value is replaced with the new value
@@ -103,7 +103,20 @@ bs.insert(arr,2)
 var arr = [1,2,3];
 bs.insert(arr,2,{unique:true});
 // arr is [1,2,3]
- 
+
+```
+
+insert with user defined comparator function
+
+```js
+var arr = [5,6,7,8,9];
+bs.insert(arr,10,function(value,add){
+  if(value > add) return 1;
+  else if(value < add) return -1;
+  return 0;
+});
+// arr is [5,6,7,8,9,10]
+
 ```
 
 create an object index
@@ -124,7 +137,7 @@ var obj = {a:{id:22,name:'bob'},b:{id:11,name:'joe'}};
 index = bs.indexObject(obj,function(o1,o2){
   if(o1.id > o2.id) return 1
   else if(o1.id < o2.id) return -1;
-  return 0; 
+  return 0;
 });
 
 obj[bs(index,'bob').k] === {id:22,name:'bob'};
@@ -137,5 +150,3 @@ thanks
 ======
 
 @rvagg https://github.com/rvagg for making leveldb bindings for node these search functions emulate leveldb query behavior.
-
-
