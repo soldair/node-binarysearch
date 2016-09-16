@@ -45,7 +45,7 @@ bs.first([0,1,2,3,3,3,4],3) === 3
 find last key that matches
 
 ```js
-bs.last([,1,2,3,3,3,4],3) === 4
+bs.last([0,1,2,3,3,3,4],3) === 5
 
 ```
 
