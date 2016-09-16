@@ -38,14 +38,14 @@ bs([5,6,7,8,9],9,function(value,find){
 find first key that matches
 
 ```js
-bs.first([0,1,2,3,3,3,4],3) === 2
+bs.first([0,1,2,3,3,3,4],3) === 3
 
 ```
 
 find last key that matches
 
 ```js
-bs.last([,1,2,3,3,3,4],3) === 4
+bs.last([0,1,2,3,3,3,4],3) === 5
 
 ```
 
