@@ -145,8 +145,3 @@ obj[bs(index,'bob').k] === {id:22,name:'bob'};
 ```
 
 
-
-thanks
-======
-
-@rvagg https://github.com/rvagg for making leveldb bindings for node these search functions emulate leveldb query behavior.
